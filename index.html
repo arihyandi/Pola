@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Petualangan Pola</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <style>
   :root{
     --bg:#fff8ec; --card:#ffffff; --ink:#2b2d42; --muted:#6b6f80;
@@ -16,20 +17,22 @@
     :root:not([data-theme="light"]){
       --bg:#1d1f2b; --card:#2a2d3d; --ink:#f2f2f7; --muted:#a8acc0;
       --line:#3b3f55; --good-bg:#1f3a2c; --bad-bg:#43262a; --q:#6b5a14;
-      --shadow:0 6px 0 rgba(0,0,0,.35);
+      --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
     }
   }
   :root[data-theme="dark"]{
     --bg:#1d1f2b; --card:#2a2d3d; --ink:#f2f2f7; --muted:#a8acc0;
     --line:#3b3f55; --good-bg:#1f3a2c; --bad-bg:#43262a; --q:#6b5a14;
-    --shadow:0 6px 0 rgba(0,0,0,.35);
+    --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
     background:var(--bg); color:var(--ink);
     font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
-    min-height:100vh; padding:16px;
+    min-height:100vh; padding-block:16px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
   }
   .wrap{max-width:760px;margin:0 auto}
   .card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
@@ -403,7 +406,13 @@ $("btn-start").addEventListener("click", startGame);
 $("btn-next").addEventListener("click", next);
 $("btn-again").addEventListener("click", startGame);
 $("btn-menu").addEventListener("click", ()=>show("screen-start"));
-$("btn-home").addEventListener("click", ()=>{ if(confirm("Kembali ke menu awal? Skor sekarang akan hilang.")) show("screen-start"); });
+let homeTimer = null;
+$("btn-home").addEventListener("click", e=>{
+  const b = e.currentTarget;
+  if(homeTimer){ clearTimeout(homeTimer); homeTimer = null; b.textContent = "🏠"; show("screen-start"); return; }
+  b.textContent = "Keluar? Tekan lagi 🏠";
+  homeTimer = setTimeout(()=>{ homeTimer = null; b.textContent = "🏠"; }, 3000);
+});
 $("btn-sound").addEventListener("click", e=>{ soundOn = !soundOn; e.currentTarget.textContent = soundOn ? "🔊" : "🔇"; });
 document.addEventListener("keydown", e=>{
   if($("screen-game").classList.contains("hidden")) return;
