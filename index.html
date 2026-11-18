@@ -10,26 +10,28 @@
 <style>
   /* Layout: satu kolom terpusat di atas "papan pola" yang bergerak; warna pola p1–p5 dipakai berulang seperti balok pola */
   :root{
-    --bg:#eef3ff; --bg2:#fdf1ff; --card:#ffffff; --ink:#24264a; --muted:#666a8f;
-    --line:#dfe3f5; --tile:#f6f8ff;
-    --p1:#ff5d6c; --p2:#ffb627; --p3:#4f7cff; --p4:#22c39a; --p5:#a26bff;
-    --primary:#ff6a3d; --primary-dk:#d24a1f; --accent:#4f7cff; --accent-dk:#2f55c4;
-    --good:#1fa864; --good-bg:#e3f8ec; --bad:#e5484d; --bad-bg:#fde8ea;
-    --q:#ffe27a; --q-line:#e6b800; --shadow:0 6px 0 rgba(36,38,74,.08);
+    --bg:#eef3ff; --bg2:#ffffff; --card:#ffffff; --ink:#14213d; --muted:#5b6585;
+    --line:#d9e1f5; --tile:#f6f8ff; --white:#ffffff;
+    --p1:#e63946; --p2:#ff8a93; --p3:#1d4ed8; --p4:#60a5fa; --p5:#1e3a8a;
+    --primary:#e63946; --primary-dk:#b5202d; --accent:#1d4ed8; --accent-dk:#1e3a8a;
+    --good:#1fa864; --good-bg:#e3f8ec; --bad:#e63946; --bad-bg:#fde8ea;
+    --q:#e6eeff; --q-line:#1d4ed8; --q-ink:#1d4ed8; --shadow:0 6px 0 rgba(20,33,61,.08);
     --bgfx:.16;
     --font-display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;
     --font-body:"Nunito","Trebuchet MS","Segoe UI",system-ui,sans-serif;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#151833; --bg2:#231a3b; --card:#23274a; --ink:#f1f2ff; --muted:#a9addb;
-      --line:#363b66; --tile:#1b1f3d; --good-bg:#173a2b; --bad-bg:#45232b; --q:#6b5a14; --q-line:#c9a20a;
+      --bg:#0e1630; --bg2:#1c1328; --card:#18213f; --ink:#f5f7ff; --muted:#a7b1d6;
+      --line:#2e3a66; --tile:#121a36; --good-bg:#173a2b; --bad-bg:#45232b; --q:#1c2c5e; --q-line:#6d93ff; --q-ink:#c9d7ff;
+      --p3:#4d7cff; --p5:#93b4ff; --accent:#4d7cff;
       --shadow:0 6px 0 rgba(0,0,0,.35); --bgfx:.22; color-scheme:dark;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#151833; --bg2:#231a3b; --card:#23274a; --ink:#f1f2ff; --muted:#a9addb;
-    --line:#363b66; --tile:#1b1f3d; --good-bg:#173a2b; --bad-bg:#45232b; --q:#6b5a14; --q-line:#c9a20a;
+    --bg:#0e1630; --bg2:#1c1328; --card:#18213f; --ink:#f5f7ff; --muted:#a7b1d6;
+    --line:#2e3a66; --tile:#121a36; --good-bg:#173a2b; --bad-bg:#45232b; --q:#1c2c5e; --q-line:#6d93ff; --q-ink:#c9d7ff;
+    --p3:#4d7cff; --p5:#93b4ff; --accent:#4d7cff;
     --shadow:0 6px 0 rgba(0,0,0,.35); --bgfx:.22; color-scheme:dark;
   }
   *{box-sizing:border-box}
@@ -79,10 +81,10 @@
   }
   .card::before{
     content:"";position:absolute;left:0;right:0;top:0;height:10px;
-    background:repeating-linear-gradient(90deg,var(--p1) 0 40px,var(--p2) 40px 80px,var(--p3) 80px 120px,var(--p4) 120px 160px,var(--p5) 160px 200px);
-    background-size:200px 100%;animation:stripe 6s linear infinite
+    background:repeating-linear-gradient(90deg,var(--p1) 0 40px,var(--white) 40px 80px,var(--p3) 80px 120px);
+    background-size:120px 100%;animation:stripe 6s linear infinite;border-bottom:1px solid var(--line)
   }
-  @keyframes stripe{to{background-position:200px 0}}
+  @keyframes stripe{to{background-position:120px 0}}
   @keyframes cardIn{from{opacity:.4;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
 
   /* ===== Logo balok pola ===== */
@@ -92,11 +94,11 @@
     font-family:var(--font-display);font-weight:800;font-size:26px;color:#fff;
     box-shadow:0 4px 0 rgba(0,0,0,.15);animation:hop 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * .15s)
   }
-  .logo i.q{background:var(--q);color:#7a5c00;border:3px dashed var(--q-line)}
+  .logo i.q{background:var(--q);color:var(--q-ink);border:3px dashed var(--q-line)}
   .logo i.q::after{content:"?";animation:cycle 2.4s steps(1) infinite}
   @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-12px) rotate(-6deg)}}
-  @keyframes cycle{0%{content:"?";color:#7a5c00}50%{content:"▲";color:var(--p1)}}
-  .b1{background:var(--p1)} .b2{background:var(--p3)} .b3{background:var(--p4)}
+  @keyframes cycle{0%{content:"?";color:var(--q-ink)}50%{content:"▲";color:var(--p1)}}
+  .b1{background:var(--p1)} .b2{background:var(--p3)}
 
   h1{font-family:var(--font-display);font-size:clamp(34px,7vw,52px);line-height:1.05;margin:4px 0;text-align:center;text-wrap:balance}
   h1 .wave span{display:inline-block;animation:letter 2s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
@@ -134,17 +136,17 @@
   /* ===== Bar atas ===== */
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
   .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:800;font-size:15px;background:var(--card);border:2px solid var(--line)}
-  .pill.l1{color:var(--good)} .pill.l2{color:#d98a00} .pill.l3{color:var(--bad)}
+  .pill.l1{color:var(--p3)} .pill.l2{color:var(--p5)} .pill.l3{color:var(--p1)}
   .pill.bump{animation:bump .4s}
   @keyframes bump{50%{transform:scale(1.25)}}
   .icon-btn{font:inherit;font-weight:700;font-size:17px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 10px;cursor:pointer;color:var(--ink)}
   .progress{position:relative;height:16px;background:var(--card);border:2px solid var(--line);border-radius:999px;overflow:hidden;margin-bottom:14px}
   .progress > div{
     height:100%;width:0;transition:width .4s;
-    background:repeating-linear-gradient(90deg,var(--p1) 0 16px,var(--p2) 16px 32px,var(--p4) 32px 48px,var(--p3) 48px 64px);
-    background-size:64px 100%;animation:stripe2 2s linear infinite
+    background:repeating-linear-gradient(90deg,var(--p1) 0 16px,var(--white) 16px 32px,var(--p3) 32px 48px);
+    background-size:48px 100%;animation:stripe2 2s linear infinite
   }
-  @keyframes stripe2{to{background-position:64px 0}}
+  @keyframes stripe2{to{background-position:48px 0}}
 
   /* ===== Soal ===== */
   .qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
@@ -158,9 +160,7 @@
     word-break:break-word;max-width:100%;box-shadow:0 3px 0 rgba(0,0,0,.06);
     animation:popIn .45s cubic-bezier(.2,.9,.3,1.5) both;animation-delay:calc(var(--i) * .07s)
   }
-  .tile:nth-child(5n+1){border-bottom-color:var(--p1)} .tile:nth-child(5n+2){border-bottom-color:var(--p2)}
-  .tile:nth-child(5n+3){border-bottom-color:var(--p3)} .tile:nth-child(5n+4){border-bottom-color:var(--p4)}
-  .tile:nth-child(5n){border-bottom-color:var(--p5)}
+  .tile:nth-child(odd){border-bottom-color:var(--p1)} .tile:nth-child(even){border-bottom-color:var(--p3)}
   .tile{border-bottom-width:5px}
   .tile.missing{background:var(--q);border:3px dashed var(--q-line);animation:popIn .45s both,wiggle 1.6s ease-in-out .6s infinite;animation-delay:calc(var(--i) * .07s),calc(var(--i) * .07s + .5s)}
   .tile.filled{background:var(--good-bg);border:3px solid var(--good);animation:fillIn .5s cubic-bezier(.2,.9,.3,1.6)}
@@ -182,8 +182,7 @@
     display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin:0 auto 2px;
     font-family:var(--font-body);font-size:13px;color:#fff;font-weight:800
   }
-  .opt:nth-child(1) .k{background:var(--p1)} .opt:nth-child(2) .k{background:var(--p3)}
-  .opt:nth-child(3) .k{background:var(--p4)} .opt:nth-child(4) .k{background:var(--p5)}
+  .opt:nth-child(odd) .k{background:var(--p1)} .opt:nth-child(even) .k{background:var(--accent)}
   .opt > span:last-child{display:block}
   .opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-3px)}
   .opt.correct{background:var(--good-bg);border-color:var(--good);box-shadow:0 5px 0 var(--good)}
@@ -201,7 +200,7 @@
   .score small{display:block;font-family:var(--font-body);font-size:16px;color:var(--muted);font-weight:700;margin-top:4px}
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
   .stat{background:var(--tile);border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center;font-weight:700}
-  .stat:nth-child(1){border-top:6px solid var(--p1)} .stat:nth-child(2){border-top:6px solid var(--p3)} .stat:nth-child(3){border-top:6px solid var(--p4)}
+  .stat:nth-child(1){border-top:6px solid var(--p1)} .stat:nth-child(2){border-top:6px solid var(--p3)} .stat:nth-child(3){border-top:6px solid var(--p1)}
   .stat b{display:block;font-family:var(--font-display);font-size:26px}
   .review{margin-top:14px}
   .review h3{font-family:var(--font-display);margin:10px 0}
@@ -243,9 +242,9 @@
     <p class="sub">Temukan gambar, angka, atau huruf yang hilang!</p>
     <div class="badges">
       <span class="badge" style="background:var(--p1)">🖼️ Gambar</span>
-      <span class="badge" style="background:var(--p3)">🔢 Angka</span>
-      <span class="badge" style="background:var(--p4)">🔤 Huruf</span>
-      <span class="badge" style="background:var(--p5)">50 soal · Kelas 3–4</span>
+      <span class="badge" style="background:var(--accent)">🔢 Angka</span>
+      <span class="badge" style="background:var(--p1)">🔤 Huruf</span>
+      <span class="badge" style="background:var(--accent)">50 soal · Kelas 3–4</span>
     </div>
 
     <label class="lbl" for="name">Siapa namamu?</label>
@@ -516,7 +515,7 @@ function buildBackground(){
     s.style.setProperty("--dl", (-i*1.7) + "s");
     fx.appendChild(s);
   }
-  const w = $("title-wave"), txt = w.textContent, cols = ["--p1","--p2","--p3","--p4"];
+  const w = $("title-wave"), txt = w.textContent, cols = ["--p1","--p3"];
   w.innerHTML = "";
   [...txt].forEach((ch,i)=>{
     const sp = document.createElement("span"); sp.textContent = ch;
