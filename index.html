@@ -10,29 +10,33 @@
 <style>
   /* Layout: satu kolom terpusat di atas "papan pola" yang bergerak; warna pola p1–p5 dipakai berulang seperti balok pola */
   :root{
-    --bg:#eef3ff; --bg2:#ffffff; --card:#ffffff; --ink:#14213d; --muted:#5b6585;
-    --line:#d9e1f5; --tile:#f6f8ff; --white:#ffffff;
-    --p1:#e63946; --p2:#ff8a93; --p3:#1d4ed8; --p4:#60a5fa; --p5:#1e3a8a;
-    --primary:#e63946; --primary-dk:#b5202d; --accent:#1d4ed8; --accent-dk:#1e3a8a;
-    --good:#1fa864; --good-bg:#e3f8ec; --bad:#e63946; --bad-bg:#fde8ea;
-    --q:#e6eeff; --q-line:#1d4ed8; --q-ink:#1d4ed8; --shadow:0 6px 0 rgba(20,33,61,.08);
-    --bgfx:.16;
+    /* kontras tinggi: teks >= 4.5:1, garis & tepi >= 3:1 (WCAG 2.1) */
+    --bg:#cfdcff; --bg2:#ffe0e4; --card:#ffffff; --ink:#0a1230; --muted:#3a4566;
+    --line:#7487c0; --tile:#eaf0ff; --white:#ffffff;
+    --p1:#c8102e; --p2:#ff6b7a; --p3:#1238b8; --p4:#4f8dff; --p5:#0b2a7a;
+    --red-solid:#c8102e; --red-dk:#8a0b20; --blue-solid:#1238b8; --blue-dk:#0b2470;
+    --primary:#c8102e; --accent:#1238b8;
+    --good:#0d7a43; --good-bg:#dcf5e6; --bad:#c8102e; --bad-bg:#fde2e5;
+    --q:#d6e2ff; --q-line:#1238b8; --q-ink:#1238b8; --shadow:0 6px 0 rgba(10,18,48,.18);
+    --bgfx:.26;
     --font-display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;
     --font-body:"Nunito","Trebuchet MS","Segoe UI",system-ui,sans-serif;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0e1630; --bg2:#1c1328; --card:#18213f; --ink:#f5f7ff; --muted:#a7b1d6;
-      --line:#2e3a66; --tile:#121a36; --good-bg:#173a2b; --bad-bg:#45232b; --q:#1c2c5e; --q-line:#6d93ff; --q-ink:#c9d7ff;
-      --p3:#4d7cff; --p5:#93b4ff; --accent:#4d7cff;
-      --shadow:0 6px 0 rgba(0,0,0,.35); --bgfx:.22; color-scheme:dark;
+      --bg:#030716; --bg2:#1a0a1c; --card:#16225a; --ink:#ffffff; --muted:#cdd5f5;
+      --line:#6175c4; --tile:#0b1335; --good:#3ddc84; --good-bg:#0f3a25; --bad:#ff5466; --bad-bg:#4a1622;
+      --q:#1d3480; --q-line:#8fb0ff; --q-ink:#dfe8ff;
+      --p1:#ff5466; --p3:#7ea2ff; --p5:#a9c0ff; --accent:#7ea2ff;
+      --shadow:0 6px 0 rgba(0,0,0,.5); --bgfx:.3; color-scheme:dark;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0e1630; --bg2:#1c1328; --card:#18213f; --ink:#f5f7ff; --muted:#a7b1d6;
-    --line:#2e3a66; --tile:#121a36; --good-bg:#173a2b; --bad-bg:#45232b; --q:#1c2c5e; --q-line:#6d93ff; --q-ink:#c9d7ff;
-    --p3:#4d7cff; --p5:#93b4ff; --accent:#4d7cff;
-    --shadow:0 6px 0 rgba(0,0,0,.35); --bgfx:.22; color-scheme:dark;
+    --bg:#030716; --bg2:#1a0a1c; --card:#16225a; --ink:#ffffff; --muted:#cdd5f5;
+    --line:#6175c4; --tile:#0b1335; --good:#3ddc84; --good-bg:#0f3a25; --bad:#ff5466; --bad-bg:#4a1622;
+    --q:#1d3480; --q-line:#8fb0ff; --q-ink:#dfe8ff;
+    --p1:#ff5466; --p3:#7ea2ff; --p5:#a9c0ff; --accent:#7ea2ff;
+    --shadow:0 6px 0 rgba(0,0,0,.5); --bgfx:.3; color-scheme:dark;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -98,7 +102,7 @@
   .logo i.q::after{content:"?";animation:cycle 2.4s steps(1) infinite}
   @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-12px) rotate(-6deg)}}
   @keyframes cycle{0%{content:"?";color:var(--q-ink)}50%{content:"▲";color:var(--p1)}}
-  .b1{background:var(--p1)} .b2{background:var(--p3)}
+  .b1{background:var(--red-solid)} .b2{background:var(--blue-solid)}
 
   h1{font-family:var(--font-display);font-size:clamp(34px,7vw,52px);line-height:1.05;margin:4px 0;text-align:center;text-wrap:balance}
   h1 .wave span{display:inline-block;animation:letter 2s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
@@ -123,11 +127,11 @@
   .lvl-btn[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--tile))}
   .btn{
     font-family:var(--font-display);font-weight:800;font-size:22px;border:none;border-radius:18px;cursor:pointer;
-    padding:13px 22px;background:var(--primary);color:#fff;box-shadow:0 5px 0 var(--primary-dk);transition:transform .1s
+    padding:13px 22px;background:var(--red-solid);color:#fff;box-shadow:0 5px 0 var(--red-dk);transition:transform .1s
   }
   .btn:hover{transform:translateY(-2px)}
-  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--primary-dk)}
-  .btn.sec{background:var(--accent);box-shadow:0 5px 0 var(--accent-dk)}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red-dk)}
+  .btn.sec{background:var(--blue-solid);box-shadow:0 5px 0 var(--blue-dk)}
   .btn.block{display:block;width:100%;margin-top:18px}
   #btn-start{animation:breathe 2.2s ease-in-out infinite}
   @keyframes breathe{50%{transform:scale(1.03)}}
@@ -182,7 +186,7 @@
     display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin:0 auto 2px;
     font-family:var(--font-body);font-size:13px;color:#fff;font-weight:800
   }
-  .opt:nth-child(odd) .k{background:var(--p1)} .opt:nth-child(even) .k{background:var(--accent)}
+  .opt:nth-child(odd) .k{background:var(--red-solid)} .opt:nth-child(even) .k{background:var(--blue-solid)}
   .opt > span:last-child{display:block}
   .opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-3px)}
   .opt.correct{background:var(--good-bg);border-color:var(--good);box-shadow:0 5px 0 var(--good)}
@@ -241,10 +245,10 @@
     <h1>Petualangan <span class="wave" id="title-wave">Pola</span></h1>
     <p class="sub">Temukan gambar, angka, atau huruf yang hilang!</p>
     <div class="badges">
-      <span class="badge" style="background:var(--p1)">🖼️ Gambar</span>
-      <span class="badge" style="background:var(--accent)">🔢 Angka</span>
-      <span class="badge" style="background:var(--p1)">🔤 Huruf</span>
-      <span class="badge" style="background:var(--accent)">50 soal · Kelas 3–4</span>
+      <span class="badge" style="background:var(--red-solid)">🖼️ Gambar</span>
+      <span class="badge" style="background:var(--blue-solid)">🔢 Angka</span>
+      <span class="badge" style="background:var(--red-solid)">🔤 Huruf</span>
+      <span class="badge" style="background:var(--blue-solid)">50 soal · Kelas 3–4</span>
     </div>
 
     <label class="lbl" for="name">Siapa namamu?</label>
