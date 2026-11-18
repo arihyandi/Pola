@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Petualangan Pola</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" type="image/png" href="assets/logo-kalam-kudus.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap">
 <style>
@@ -93,7 +94,7 @@
   .hero h1 .wave span{display:inline-block;animation:letter 2s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
   @keyframes letter{0%,70%,100%{transform:translateY(0)}35%{transform:translateY(-7px)}}
   .hero-text{margin:0;max-width:44ch;color:rgba(242,246,252,0.82)}
-  .logo{display:flex;gap:8px;flex-wrap:wrap}
+  .logo{display:flex;gap:8px;flex-wrap:wrap;padding-right:clamp(72px,11vw,104px);min-height:clamp(56px,9vw,85px);align-items:center}
   .logo i{
     width:46px;height:46px;border-radius:10px;display:grid;place-items:center;font-style:normal;
     font:700 24px/1 var(--mono);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.14);
@@ -104,6 +105,9 @@
   .logo i.q::after{content:"?";animation:cycle 2.4s steps(1) infinite}
   @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-10px) rotate(-6deg)}}
   @keyframes cycle{0%{content:"?";color:#FFD84D}50%{content:"▲";color:#6C95FF}}
+  .school-logo{position:absolute;top:clamp(14px,3vw,24px);right:clamp(14px,3vw,24px);width:clamp(64px,10vw,96px);height:auto;display:block}
+  .school-foot{display:flex;align-items:center;gap:10px;margin:14px 0 0;padding-top:14px;border-top:1.5px dashed var(--line);font-size:13px;color:var(--muted)}
+  .school-foot img{width:34px;height:auto}
   .facts{display:flex;flex-wrap:wrap;gap:8px}
   .facts span{font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.14)}
   .facts b{color:#FFD84D;font-weight:700}
@@ -243,6 +247,7 @@
   <!-- ===== LAYAR AWAL ===== -->
   <section id="screen-start" class="card start">
     <div class="hero">
+      <img class="school-logo" src="assets/logo-kalam-kudus.png" width="320" height="284" alt="Logo Kalam Kudus">
       <div class="logo" aria-hidden="true">
         <i class="b1" style="--i:0">▲</i><i class="b2" style="--i:1">●</i><i class="b1" style="--i:2">▲</i><i class="b2" style="--i:3">●</i><i class="q" style="--i:4"></i>
       </div>
@@ -275,6 +280,7 @@
 
       <button class="btn block" id="btn-start">Ayo mulai →</button>
       <p class="footer">Lihat polanya, lalu pilih jawaban untuk mengganti tanda ❓</p>
+      <p class="school-foot"><img src="assets/logo-kalam-kudus.png" width="320" height="284" alt="">Sekolah Kristen Kalam Kudus</p>
     </div>
   </section>
 
