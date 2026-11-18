@@ -6,227 +6,230 @@
 <title>Petualangan Pola</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap">
 <style>
-  /* Layout: satu kolom terpusat di atas "papan pola" yang bergerak; warna pola p1–p5 dipakai berulang seperti balok pola */
+  /* Warna & latar mengikuti repo Pengenalan-Pola (Detektif Pola): kertas berpetak + simbol pola melayang */
   :root{
-    /* kontras tinggi: teks >= 4.5:1, garis & tepi >= 3:1 (WCAG 2.1) */
-    --bg:#cfdcff; --bg2:#ffe0e4; --card:#ffffff; --ink:#0a1230; --muted:#3a4566;
-    --line:#7487c0; --tile:#eaf0ff; --white:#ffffff;
-    --p1:#c8102e; --p2:#ff6b7a; --p3:#1238b8; --p4:#4f8dff; --p5:#0b2a7a;
-    --red-solid:#c8102e; --red-dk:#8a0b20; --blue-solid:#1238b8; --blue-dk:#0b2470;
-    --primary:#c8102e; --accent:#1238b8;
-    --good:#0d7a43; --good-bg:#dcf5e6; --bad:#c8102e; --bad-bg:#fde2e5;
-    --q:#d6e2ff; --q-line:#1238b8; --q-ink:#1238b8; --shadow:0 6px 0 rgba(10,18,48,.18);
-    --bgfx:.26;
-    --font-display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;
-    --font-body:"Nunito","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    --paper:#EEF3F8; --hero:#17233A; --grid:rgba(47,107,255,0.09);
+    --card:#FFFFFF; --tile:#F6F8FC; --line:#D3DCEA; --ink:#17233A; --muted:#5A6A85;
+    --accent:#2F6BFF; --accent-ink:#FFFFFF; --marker:#FFD84D;
+    --good:#188A5C; --good-bg:#E3F5EC; --bad:#C93A3A; --bad-bg:#FBE7E7;
+    --shadow:0 1px 0 rgba(23,35,58,0.06), 0 8px 24px -12px rgba(23,35,58,0.25);
+    --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+    --body:"Lexend","Segoe UI",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#030716; --bg2:#1a0a1c; --card:#16225a; --ink:#ffffff; --muted:#cdd5f5;
-      --line:#6175c4; --tile:#0b1335; --good:#3ddc84; --good-bg:#0f3a25; --bad:#ff5466; --bad-bg:#4a1622;
-      --q:#1d3480; --q-line:#8fb0ff; --q-ink:#dfe8ff;
-      --p1:#ff5466; --p3:#7ea2ff; --p5:#a9c0ff; --accent:#7ea2ff;
-      --shadow:0 6px 0 rgba(0,0,0,.5); --bgfx:.3; color-scheme:dark;
+      --paper:#0E1522; --hero:#1A2A47; --grid:rgba(120,160,255,0.07);
+      --card:#172134; --tile:#1E2A40; --line:#2C3A55; --ink:#E6ECF6; --muted:#9AA8C2;
+      --accent:#6C95FF; --accent-ink:#0B1220; --marker:#E8C23A;
+      --good:#4FD1A0; --good-bg:#133528; --bad:#FF7B7B; --bad-bg:#3A1C22;
+      --shadow:0 1px 0 rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.7);
+      color-scheme:dark;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#030716; --bg2:#1a0a1c; --card:#16225a; --ink:#ffffff; --muted:#cdd5f5;
-    --line:#6175c4; --tile:#0b1335; --good:#3ddc84; --good-bg:#0f3a25; --bad:#ff5466; --bad-bg:#4a1622;
-    --q:#1d3480; --q-line:#8fb0ff; --q-ink:#dfe8ff;
-    --p1:#ff5466; --p3:#7ea2ff; --p5:#a9c0ff; --accent:#7ea2ff;
-    --shadow:0 6px 0 rgba(0,0,0,.5); --bgfx:.3; color-scheme:dark;
+    --paper:#0E1522; --hero:#1A2A47; --grid:rgba(120,160,255,0.07);
+    --card:#172134; --tile:#1E2A40; --line:#2C3A55; --ink:#E6ECF6; --muted:#9AA8C2;
+    --accent:#6C95FF; --accent-ink:#0B1220; --marker:#E8C23A;
+    --good:#4FD1A0; --good-bg:#133528; --bad:#FF7B7B; --bad-bg:#3A1C22;
+    --shadow:0 1px 0 rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.7);
+    color-scheme:dark;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
-    background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 100%) fixed, var(--bg);
-    color:var(--ink); font-family:var(--font-body); font-size:16px;
-    min-height:100vh; padding-block:16px;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:24px 24px;
+    color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;
+    min-height:100vh; padding-block:24px 40px;
     padding-left:max(16px, env(safe-area-inset-left, 0px));
     padding-right:max(16px, env(safe-area-inset-right, 0px));
     overflow-x:hidden;
   }
 
-  /* ===== Latar belakang animasi pola ===== */
-  .bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .ribbon{
-    position:absolute;left:0;white-space:nowrap;display:flex;width:max-content;
-    font-family:var(--font-display);font-weight:800;font-size:34px;letter-spacing:.35em;
-    opacity:var(--bgfx);animation:slide var(--dur,60s) linear infinite;
+  /* ===== Latar animasi: pola, simbol, angka, dan kode yang melayang (seperti sumber) ===== */
+  .ambient{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .ambient span{
+    position:absolute;left:var(--x);bottom:-12vh;font:700 var(--s)/1 var(--mono);color:var(--c);opacity:var(--o);
+    white-space:nowrap;will-change:transform;animation:melayang var(--d) linear var(--t) infinite
   }
-  .ribbon span{padding-right:.35em}
-  .ribbon.rev{animation-direction:reverse}
-  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .r1{top:4%;transform:rotate(-4deg)} .r2{top:30%;--dur:80s} .r3{top:58%;--dur:70s} .r4{top:86%;--dur:55s}
-  .c1{color:var(--p1)} .c2{color:var(--p2)} .c3{color:var(--p3)} .c4{color:var(--p4)} .c5{color:var(--p5)}
-  .shape{
-    position:absolute;bottom:-60px;width:var(--s,28px);height:var(--s,28px);opacity:calc(var(--bgfx) * 2.2);
-    animation:floatUp var(--d,18s) linear infinite;animation-delay:var(--dl,0s)
-  }
-  .shape.circle{border-radius:50%}
-  .shape.square{border-radius:6px}
-  .shape.tri{clip-path:polygon(50% 0,100% 100%,0 100%)}
-  .shape.star{clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
-  @keyframes floatUp{
-    0%{transform:translateY(0) rotate(0)}
-    50%{transform:translateY(-55vh) translateX(30px) rotate(180deg)}
-    100%{transform:translateY(-115vh) rotate(360deg)}
+  .ambient span.still{bottom:auto;top:var(--y);animation:none;transform:rotate(var(--r0))}
+  @keyframes melayang{
+    from{transform:translate3d(0,0,0) rotate(var(--r0))}
+    to{transform:translate3d(var(--dx),-128vh,0) rotate(var(--r1))}
   }
 
-  .wrap{max-width:760px;margin:0 auto;position:relative;z-index:1}
+  .wrap{max-width:880px;margin:0 auto;position:relative;z-index:1}
   .hidden{display:none !important}
 
-  /* ===== Kartu dengan strip pola berjalan ===== */
+  /* ===== Kartu (papan) dengan strip pola berjalan ===== */
   .card{
-    position:relative;background:var(--card);border:2px solid var(--line);border-radius:24px;
-    padding:28px 22px 22px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .5s cubic-bezier(.2,.9,.3,1.3)
+    position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:clamp(20px,4vw,30px);box-shadow:var(--shadow);overflow:hidden;animation:cardIn .45s cubic-bezier(.2,.9,.3,1.3)
   }
-  .card::before{
-    content:"";position:absolute;left:0;right:0;top:0;height:10px;
-    background:repeating-linear-gradient(90deg,var(--p1) 0 40px,var(--white) 40px 80px,var(--p3) 80px 120px);
-    background-size:120px 100%;animation:stripe 6s linear infinite;border-bottom:1px solid var(--line)
+  .card.has-stripe::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:6px;
+    background:repeating-linear-gradient(90deg,var(--accent) 0 30px,var(--marker) 30px 60px);
+    background-size:60px 100%;animation:stripe 4s linear infinite
   }
-  @keyframes stripe{to{background-position:120px 0}}
-  @keyframes cardIn{from{opacity:.4;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes stripe{to{background-position:60px 0}}
+  @keyframes cardIn{from{opacity:.4;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 
-  /* ===== Logo balok pola ===== */
-  .logo{display:flex;justify-content:center;gap:8px;margin:4px 0 10px}
+  /* ===== Layar awal: panel hero gelap + formulir ===== */
+  .start{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);padding:0}
+  .hero{
+    position:relative;display:grid;align-content:center;gap:16px;padding:clamp(22px,4vw,36px);color:#F2F6FC;
+    background-color:var(--hero);
+    background-image:radial-gradient(circle at 85% 12%,rgba(255,216,77,0.22),transparent 42%),
+      linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);
+    background-size:auto,22px 22px,22px 22px
+  }
+  .kicker{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--marker)}
+  .hero h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(34px,5.4vw,48px);line-height:1.02;text-wrap:balance}
+  .hero h1 .wave{color:var(--marker)}
+  .hero h1 .wave span{display:inline-block;animation:letter 2s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
+  @keyframes letter{0%,70%,100%{transform:translateY(0)}35%{transform:translateY(-7px)}}
+  .hero-text{margin:0;max-width:44ch;color:rgba(242,246,252,0.82)}
+  .logo{display:flex;gap:8px;flex-wrap:wrap}
   .logo i{
-    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-style:normal;
-    font-family:var(--font-display);font-weight:800;font-size:26px;color:#fff;
-    box-shadow:0 4px 0 rgba(0,0,0,.15);animation:hop 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * .15s)
+    width:46px;height:46px;border-radius:10px;display:grid;place-items:center;font-style:normal;
+    font:700 24px/1 var(--mono);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.14);
+    animation:hop 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * .15s)
   }
-  .logo i.q{background:var(--q);color:var(--q-ink);border:3px dashed var(--q-line)}
+  .logo i.b1{color:#6C95FF} .logo i.b2{color:#FFD84D}
+  .logo i.q{border:2px dashed #FFD84D;background:transparent;color:#FFD84D;font-family:var(--display)}
   .logo i.q::after{content:"?";animation:cycle 2.4s steps(1) infinite}
-  @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-12px) rotate(-6deg)}}
-  @keyframes cycle{0%{content:"?";color:var(--q-ink)}50%{content:"▲";color:var(--p1)}}
-  .b1{background:var(--red-solid)} .b2{background:var(--blue-solid)}
-
-  h1{font-family:var(--font-display);font-size:clamp(34px,7vw,52px);line-height:1.05;margin:4px 0;text-align:center;text-wrap:balance}
-  h1 .wave span{display:inline-block;animation:letter 2s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
-  @keyframes letter{0%,70%,100%{transform:translateY(0)}35%{transform:translateY(-8px)}}
-  .sub{text-align:center;color:var(--muted);margin:0 0 18px;font-size:17px}
-  .badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 6px}
-  .badge{font-weight:800;font-size:14px;padding:5px 12px;border-radius:999px;color:#fff}
-  label.lbl{display:block;font-family:var(--font-display);font-weight:700;font-size:19px;margin:16px 0 6px}
+  @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-10px) rotate(-6deg)}}
+  @keyframes cycle{0%{content:"?";color:#FFD84D}50%{content:"▲";color:#6C95FF}}
+  .facts{display:flex;flex-wrap:wrap;gap:8px}
+  .facts span{font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.14)}
+  .facts b{color:#FFD84D;font-weight:700}
+  .form-side{padding:clamp(22px,4vw,36px);display:grid;align-content:center;gap:4px}
+  .chip{
+    justify-self:start;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:#17233A;background:var(--marker);border-radius:6px;padding:3px 9px
+  }
+  .form-title{margin:8px 0 0;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1}
+  label.lbl{display:block;font-weight:600;font-size:15px;margin:14px 0 6px}
   input[type=text]{
-    width:100%;font:inherit;font-size:20px;padding:12px 14px;border-radius:14px;
-    border:2px solid var(--line);background:var(--tile);color:var(--ink)
+    width:100%;font:inherit;font-size:17px;padding:12px 14px;border-radius:12px;
+    border:1.5px solid var(--line);background:var(--tile);color:var(--ink)
   }
-  input[type=text]:focus{outline:3px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
-  .levels{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  input[type=text]:focus{outline:3px solid color-mix(in srgb,var(--accent) 35%,transparent);border-color:var(--accent)}
+  .levels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .lvl-btn{
-    font:inherit;font-size:16px;text-align:left;padding:12px 14px;border-radius:16px;cursor:pointer;
-    border:2px solid var(--line);background:var(--tile);color:var(--ink);transition:transform .15s,border-color .15s
+    font:inherit;font-size:14px;text-align:left;padding:10px 12px;border-radius:12px;cursor:pointer;
+    border:1.5px solid var(--line);background:var(--card);color:var(--ink);transition:border-color .12s,transform .12s
   }
-  .lvl-btn:hover{transform:translateY(-2px)}
-  .lvl-btn b{display:block;font-family:var(--font-display);font-size:19px}
+  .lvl-btn:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .lvl-btn b{display:block;font-family:var(--display);font-size:17px;font-weight:700}
   .lvl-btn small{color:var(--muted)}
-  .lvl-btn[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--tile))}
+  .lvl-btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .lvl-btn[aria-pressed="true"] small{color:var(--paper);opacity:.8}
   .btn{
-    font-family:var(--font-display);font-weight:800;font-size:22px;border:none;border-radius:18px;cursor:pointer;
-    padding:13px 22px;background:var(--red-solid);color:#fff;box-shadow:0 5px 0 var(--red-dk);transition:transform .1s
+    font:600 17px/1 var(--body);border:0;border-radius:12px;cursor:pointer;padding:15px 22px;
+    background:var(--accent);color:var(--accent-ink);transition:transform .1s,filter .1s
   }
-  .btn:hover{transform:translateY(-2px)}
-  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red-dk)}
-  .btn.sec{background:var(--blue-solid);box-shadow:0 5px 0 var(--blue-dk)}
+  .btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
   .btn.block{display:block;width:100%;margin-top:18px}
-  #btn-start{animation:breathe 2.2s ease-in-out infinite}
-  @keyframes breathe{50%{transform:scale(1.03)}}
   :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .footer{text-align:center;color:var(--muted);font-size:13px;margin:12px 0 0}
 
   /* ===== Bar atas ===== */
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:800;font-size:15px;background:var(--card);border:2px solid var(--line)}
-  .pill.l1{color:var(--p3)} .pill.l2{color:var(--p5)} .pill.l3{color:var(--p1)}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:600;font-size:14px;background:var(--card);border:1px solid var(--line)}
+  .pill.l1{color:var(--good)} .pill.l2{color:var(--accent)} .pill.l3{color:var(--bad)}
   .pill.bump{animation:bump .4s}
-  @keyframes bump{50%{transform:scale(1.25)}}
-  .icon-btn{font:inherit;font-weight:700;font-size:17px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 10px;cursor:pointer;color:var(--ink)}
-  .progress{position:relative;height:16px;background:var(--card);border:2px solid var(--line);border-radius:999px;overflow:hidden;margin-bottom:14px}
+  @keyframes bump{50%{transform:scale(1.22)}}
+  .icon-btn{font:inherit;font-weight:600;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;cursor:pointer;color:var(--ink)}
+  .progress{height:12px;background:var(--card);border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-bottom:14px}
   .progress > div{
     height:100%;width:0;transition:width .4s;
-    background:repeating-linear-gradient(90deg,var(--p1) 0 16px,var(--white) 16px 32px,var(--p3) 32px 48px);
-    background-size:48px 100%;animation:stripe2 2s linear infinite
+    background:repeating-linear-gradient(90deg,var(--accent) 0 14px,var(--marker) 14px 28px);
+    background-size:28px 100%;animation:stripe2 1.6s linear infinite
   }
-  @keyframes stripe2{to{background-position:48px 0}}
+  @keyframes stripe2{to{background-position:28px 0}}
 
   /* ===== Soal ===== */
-  .qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
-  .qnum{font-family:var(--font-display);font-weight:800;font-size:22px}
-  .qtype{font-size:15px;color:var(--muted);font-weight:800}
-  .qtext{font-size:19px;margin:4px 0 14px}
-  .seq{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;padding:16px;border-radius:18px;background:var(--tile);border:2px dashed var(--line)}
+  .qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .qnum{font-family:var(--display);font-weight:800;font-size:20px}
+  .qtype{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#17233A;background:var(--marker);border-radius:6px;padding:3px 9px}
+  .qtext{font-family:var(--display);font-weight:700;font-size:clamp(20px,3.6vw,26px);line-height:1.15;margin:6px 0 16px;text-wrap:balance}
+  .seq{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
   .tile{
-    min-width:62px;min-height:62px;padding:8px 10px;border-radius:14px;background:var(--card);border:2px solid var(--line);
-    display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:30px;font-weight:800;line-height:1.1;text-align:center;
-    word-break:break-word;max-width:100%;box-shadow:0 3px 0 rgba(0,0,0,.06);
-    animation:popIn .45s cubic-bezier(.2,.9,.3,1.5) both;animation-delay:calc(var(--i) * .07s)
+    --size:clamp(52px,11vw,72px);min-width:var(--size);height:var(--size);padding-inline:8px;
+    display:grid;place-items:center;background:var(--tile);border:1.5px solid var(--line);border-radius:12px;
+    font-family:var(--mono);font-weight:700;font-size:clamp(20px,4.4vw,28px);font-variant-numeric:tabular-nums;color:var(--ink);
+    animation:pop .34s cubic-bezier(.2,.9,.3,1.3) both;animation-delay:calc(var(--i) * 55ms)
   }
-  .tile:nth-child(odd){border-bottom-color:var(--p1)} .tile:nth-child(even){border-bottom-color:var(--p3)}
-  .tile{border-bottom-width:5px}
-  .tile.missing{background:var(--q);border:3px dashed var(--q-line);animation:popIn .45s both,wiggle 1.6s ease-in-out .6s infinite;animation-delay:calc(var(--i) * .07s),calc(var(--i) * .07s + .5s)}
-  .tile.filled{background:var(--good-bg);border:3px solid var(--good);animation:fillIn .5s cubic-bezier(.2,.9,.3,1.6)}
-  .tile.revealed{background:var(--bad-bg);border:3px solid var(--bad);animation:fillIn .5s}
-  .tile.small{font-size:22px}
-  .seq.wave .tile{animation:waveUp .6s ease-in-out both;animation-delay:calc(var(--i) * .08s)}
-  @keyframes popIn{from{opacity:0;transform:scale(.3) translateY(14px)}to{opacity:1;transform:none}}
+  .tile.missing{
+    border:2px dashed var(--accent);background:transparent;color:var(--accent);font-family:var(--display);font-size:clamp(26px,5vw,34px);
+    animation:pop .34s both,wiggle 1.6s ease-in-out infinite;animation-delay:calc(var(--i) * 55ms),calc(var(--i) * 55ms + .5s)
+  }
+  .tile.filled{border:2px solid var(--good);background:var(--good-bg);animation:fillIn .45s cubic-bezier(.2,.9,.3,1.6)}
+  .tile.revealed{border:2px solid var(--bad);background:var(--bad-bg);animation:fillIn .45s}
+  .tile.small{font-size:clamp(15px,3.4vw,20px)}
+  .seq.wave .tile{animation:waveUp .6s ease-in-out both;animation-delay:calc(var(--i) * 70ms)}
+  @keyframes pop{from{transform:scale(.6);opacity:.2}to{transform:none;opacity:1}}
   @keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg) scale(1.06)}40%{transform:rotate(7deg) scale(1.06)}60%{transform:rotate(0)}}
-  @keyframes fillIn{from{transform:scale(.2) rotate(-20deg)}to{transform:none}}
-  @keyframes waveUp{50%{transform:translateY(-14px) scale(1.08)}}
+  @keyframes fillIn{from{transform:scale(.3) rotate(-18deg)}to{transform:none}}
+  @keyframes waveUp{50%{transform:translateY(-12px) scale(1.06)}}
 
-  .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
   .opt{
-    font-family:var(--font-display);font-size:28px;font-weight:800;padding:12px 8px;border-radius:18px;cursor:pointer;min-height:76px;
-    background:var(--card);color:var(--ink);border:3px solid var(--line);box-shadow:0 5px 0 var(--line);word-break:break-word;
-    transition:transform .12s,border-color .12s;animation:popIn .4s both;animation-delay:calc(.35s + var(--i) * .07s)
+    position:relative;display:grid;place-items:center;min-height:92px;padding:12px 8px;
+    background:var(--tile);border:1.5px solid var(--line);border-radius:14px;cursor:pointer;color:var(--ink);
+    font-family:var(--mono);font-weight:700;font-size:clamp(20px,4.4vw,28px);word-break:break-word;
+    transition:transform .12s,border-color .12s;animation:pop .34s both;animation-delay:calc(.3s + var(--i) * 60ms)
   }
-  .opt .k{
-    display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin:0 auto 2px;
-    font-family:var(--font-body);font-size:13px;color:#fff;font-weight:800
-  }
-  .opt:nth-child(odd) .k{background:var(--red-solid)} .opt:nth-child(even) .k{background:var(--blue-solid)}
-  .opt > span:last-child{display:block}
-  .opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-3px)}
-  .opt.correct{background:var(--good-bg);border-color:var(--good);box-shadow:0 5px 0 var(--good)}
-  .opt.wrong{background:var(--bad-bg);border-color:var(--bad);box-shadow:0 5px 0 var(--bad);animation:shake .45s}
+  .opt .k{position:absolute;top:6px;left:9px;font:600 11px/1 var(--body);color:var(--muted)}
+  .opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--accent)}
+  .opt.correct{border:2px solid var(--good);background:var(--good-bg)}
+  .opt.wrong{border:2px solid var(--bad);background:var(--bad-bg);animation:shake .3s ease}
   .opt:disabled{cursor:default}
-  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-  .feedback{margin-top:16px;padding:14px 16px;border-radius:16px;font-size:18px;animation:cardIn .35s}
-  .feedback.good{background:var(--good-bg);border:2px solid var(--good)}
-  .feedback.bad{background:var(--bad-bg);border:2px solid var(--bad)}
-  .feedback b{font-family:var(--font-display);font-size:22px}
+  @keyframes shake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+  .feedback{margin-top:18px;padding:16px 18px;border-radius:14px;font-size:16px;animation:cardIn .3s}
+  .feedback.good{background:var(--good-bg)}
+  .feedback.bad{background:var(--bad-bg)}
+  .feedback b{font-family:var(--display);font-size:20px}
+  .feedback.good b:first-child{color:var(--good)} .feedback.bad b:first-child{color:var(--bad)}
 
   /* ===== Hasil ===== */
-  .result-big{text-align:center;font-size:68px;margin:4px 0;animation:hop 2s ease-in-out infinite}
-  .score{text-align:center;font-family:var(--font-display);font-size:28px;font-weight:800}
-  .score small{display:block;font-family:var(--font-body);font-size:16px;color:var(--muted);font-weight:700;margin-top:4px}
+  .result-big{text-align:center;font-size:64px;margin:4px 0;animation:hop 2s ease-in-out infinite}
+  #res-title{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.05;margin:4px 0;text-align:center;text-wrap:balance}
+  .sub{text-align:center;color:var(--muted);margin:0 0 16px}
+  .score{text-align:center;font-family:var(--display);font-size:26px;font-weight:800}
+  .score small{display:block;font-family:var(--body);font-size:15px;color:var(--muted);font-weight:600;margin-top:4px}
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-  .stat{background:var(--tile);border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center;font-weight:700}
-  .stat:nth-child(1){border-top:6px solid var(--p1)} .stat:nth-child(2){border-top:6px solid var(--p3)} .stat:nth-child(3){border-top:6px solid var(--p1)}
-  .stat b{display:block;font-family:var(--font-display);font-size:26px}
+  .stat{background:var(--tile);border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:center;font-size:14px;font-weight:600}
+  .stat:nth-child(1){border-top:5px solid var(--accent)} .stat:nth-child(2){border-top:5px solid var(--marker)} .stat:nth-child(3){border-top:5px solid var(--good)}
+  .stat b{display:block;font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
   .review{margin-top:14px}
-  .review h3{font-family:var(--font-display);margin:10px 0}
-  .rv{border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;background:var(--tile);font-size:16px}
-  .rv .s{font-size:20px;font-weight:800;word-break:break-word}
+  .review h3{font-family:var(--display);margin:10px 0}
+  .rv{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--tile);font-size:15px}
+  .rv .s{font-family:var(--mono);font-size:18px;font-weight:700;word-break:break-word}
   .row{display:flex;gap:10px;flex-wrap:wrap}
   .row .btn{flex:1}
   .confetti{position:fixed;top:-20px;font-size:26px;pointer-events:none;animation:fall 2.4s linear forwards;z-index:9}
   @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.6}}
-  .footer{text-align:center;color:var(--muted);font-size:14px;margin-top:14px}
 
+  @media (max-width:720px){
+    .start{grid-template-columns:minmax(0,1fr)}
+    .opts{grid-template-columns:repeat(2,1fr)}
+  }
   @media (max-width:480px){
-    .card{padding:24px 16px 16px}
-    .tile{min-width:46px;min-height:52px;font-size:24px;padding:6px 8px}
-    .tile.small{font-size:17px}
-    .opt{font-size:22px;min-height:68px}
-    .levels{grid-template-columns:1fr}
+    .tile{--size:48px;padding-inline:6px}
+    .opt{min-height:72px}
+    .levels{grid-template-columns:minmax(0,1fr)}
     .topbar{gap:5px}
-    .pill{padding:5px 8px;font-size:13px}
-    .icon-btn{padding:4px 7px;font-size:15px}
-    .logo i{width:36px;height:36px;font-size:22px}
-    .ribbon{font-size:26px}
+    .pill{padding:5px 8px;font-size:12px}
+    .icon-btn{padding:4px 8px;font-size:14px}
+    .logo i{width:40px;height:40px;font-size:20px}
   }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation:none !important;transition:none !important}
@@ -234,36 +237,45 @@
 </style>
 </head>
 <body>
-<div class="bgfx" aria-hidden="true" id="bgfx"></div>
+<div class="ambient" aria-hidden="true" id="bgfx"></div>
 <div class="wrap">
 
   <!-- ===== LAYAR AWAL ===== -->
-  <section id="screen-start" class="card">
-    <div class="logo" aria-hidden="true">
-      <i class="b1" style="--i:0">▲</i><i class="b2" style="--i:1">●</i><i class="b1" style="--i:2">▲</i><i class="b2" style="--i:3">●</i><i class="q" style="--i:4"></i>
-    </div>
-    <h1>Petualangan <span class="wave" id="title-wave">Pola</span></h1>
-    <p class="sub">Temukan gambar, angka, atau huruf yang hilang!</p>
-    <div class="badges">
-      <span class="badge" style="background:var(--red-solid)">🖼️ Gambar</span>
-      <span class="badge" style="background:var(--blue-solid)">🔢 Angka</span>
-      <span class="badge" style="background:var(--red-solid)">🔤 Huruf</span>
-      <span class="badge" style="background:var(--blue-solid)">50 soal · Kelas 3–4</span>
-    </div>
-
-    <label class="lbl" for="name">Siapa namamu?</label>
-    <input id="name" type="text" maxlength="24" placeholder="Tulis namamu di sini" autocomplete="off">
-
-    <label class="lbl">Pilih tingkatan</label>
-    <div class="levels" id="levels">
-      <button class="lvl-btn" data-lvl="0" aria-pressed="true"><b>🌈 Semua Level</b><small>50 soal, mudah → sulit</small></button>
-      <button class="lvl-btn" data-lvl="1" aria-pressed="false"><b>🌱 Level 1 · Mudah</b><small>Soal 1–15</small></button>
-      <button class="lvl-btn" data-lvl="2" aria-pressed="false"><b>🌿 Level 2 · Sedang</b><small>Soal 16–35</small></button>
-      <button class="lvl-btn" data-lvl="3" aria-pressed="false"><b>🌳 Level 3 · Sulit</b><small>Soal 36–50</small></button>
+  <section id="screen-start" class="card start">
+    <div class="hero">
+      <div class="logo" aria-hidden="true">
+        <i class="b1" style="--i:0">▲</i><i class="b2" style="--i:1">●</i><i class="b1" style="--i:2">▲</i><i class="b2" style="--i:3">●</i><i class="q" style="--i:4"></i>
+      </div>
+      <div>
+        <div class="kicker">Selamat datang</div>
+        <h1>Petualangan <span class="wave" id="title-wave">Pola</span></h1>
+      </div>
+      <p class="hero-text">Amati urutan gambar, angka, atau huruf. Temukan aturannya, lalu isi kotak yang hilang!</p>
+      <div class="facts">
+        <span><b>50</b> soal</span>
+        <span><b>3</b> tingkat</span>
+        <span>SD kelas <b>3–4</b></span>
+        <span>Gambar · Angka · Huruf</span>
+      </div>
     </div>
 
-    <button class="btn block" id="btn-start">Ayo Mulai! ▶</button>
-    <p class="footer">Cara main: lihat polanya, lalu pilih jawaban yang tepat untuk mengganti tanda ❓</p>
+    <div class="form-side">
+      <span class="chip">Mulai</span>
+      <h2 class="form-title">Siapa namamu?</h2>
+      <label class="lbl" for="name">Nama</label>
+      <input id="name" type="text" maxlength="24" placeholder="contoh: Siti Aminah" autocomplete="off">
+
+      <label class="lbl">Pilih tingkatan</label>
+      <div class="levels" id="levels">
+        <button class="lvl-btn" data-lvl="0" aria-pressed="true"><b>🌈 Semua Level</b><small>50 soal, mudah → sulit</small></button>
+        <button class="lvl-btn" data-lvl="1" aria-pressed="false"><b>🌱 Level 1 · Mudah</b><small>Soal 1–15</small></button>
+        <button class="lvl-btn" data-lvl="2" aria-pressed="false"><b>🌿 Level 2 · Sedang</b><small>Soal 16–35</small></button>
+        <button class="lvl-btn" data-lvl="3" aria-pressed="false"><b>🌳 Level 3 · Sulit</b><small>Soal 36–50</small></button>
+      </div>
+
+      <button class="btn block" id="btn-start">Ayo mulai →</button>
+      <p class="footer">Lihat polanya, lalu pilih jawaban untuk mengganti tanda ❓</p>
+    </div>
   </section>
 
   <!-- ===== LAYAR SOAL ===== -->
@@ -277,7 +289,7 @@
     </div>
     <div class="progress" aria-hidden="true"><div id="bar"></div></div>
 
-    <div class="card" id="qcard">
+    <div class="card has-stripe" id="qcard">
       <div class="qhead">
         <span class="qnum" id="qnum">Soal 1 / 50</span>
         <span class="qtype" id="qtype">🖼️ Pola Gambar</span>
@@ -286,12 +298,12 @@
       <div class="seq" id="seq"></div>
       <div class="opts" id="opts"></div>
       <div id="feedback" class="feedback hidden" role="status"></div>
-      <button class="btn block hidden" id="btn-next">Lanjut ▶</button>
+      <button class="btn block hidden" id="btn-next">Lanjut →</button>
     </div>
   </section>
 
   <!-- ===== LAYAR HASIL ===== -->
-  <section id="screen-result" class="card hidden">
+  <section id="screen-result" class="card has-stripe hidden">
     <div class="result-big" id="res-emoji">🏆</div>
     <h1 id="res-title">Hebat!</h1>
     <p class="sub" id="res-msg"></p>
@@ -302,8 +314,8 @@
       <div class="stat">🔤 Huruf<b id="st-h">0/0</b></div>
     </div>
     <div class="row">
-      <button class="btn" id="btn-again">Main Lagi 🔁</button>
-      <button class="btn sec" id="btn-menu">Menu Awal 🏠</button>
+      <button class="btn" id="btn-again">Main lagi 🔁</button>
+      <button class="btn ghost" id="btn-menu">Menu awal 🏠</button>
     </div>
     <div class="review" id="review"></div>
   </section>
@@ -484,7 +496,7 @@ function answer(btn){
   $("pill-score").textContent = score; $("pill-streak").textContent = streak;
   $("bar").style.width = ((idx+1)/list.length*100)+"%";
   const nb = $("btn-next");
-  nb.textContent = idx===list.length-1 ? "Lihat Hasil 🏆" : "Lanjut ▶";
+  nb.textContent = idx===list.length-1 ? "Lihat hasil 🏆" : "Lanjut →";
   nb.classList.remove("hidden"); nb.focus();
 }
 
@@ -493,38 +505,39 @@ function replay(el){ el.style.animation = "none"; void el.offsetWidth; el.style.
 
 /* ---------- latar belakang: pita pola berjalan + bentuk melayang ---------- */
 function buildBackground(){
-  const fx = $("bgfx");
-  const ribbons = [
-    {cls:"r1", items:[["▲","c1"],["●","c3"],["■","c4"]]},
-    {cls:"r2 rev", items:[["2","c5"],["4","c2"],["6","c1"],["8","c3"],["10","c4"],["12","c5"],["14","c2"],["16","c1"]]},
-    {cls:"r3", items:[["A","c3"],["B","c4"],["C","c1"],["D","c2"],["E","c5"],["F","c3"],["G","c4"]]},
-    {cls:"r4 rev", items:[["★","c2"],["◆","c5"],["★","c2"],["◆","c5"],["●","c4"]]}
-  ];
-  ribbons.forEach(r=>{
-    const el = document.createElement("div"); el.className = "ribbon " + r.cls;
-    // ulang isi sampai cukup panjang, lalu gandakan agar putarannya mulus
-    let seq = []; while(seq.length < 24) seq = seq.concat(r.items);
-    const half = seq.map(([t,c])=>`<span class="${c}">${t}</span>`).join("");
-    el.innerHTML = half + half;
-    fx.appendChild(el);
-  });
-  const kinds = ["circle","square","tri","star"], colors = ["--p1","--p2","--p3","--p4","--p5"];
-  for(let i=0;i<14;i++){
-    const s = document.createElement("div");
-    s.className = "shape " + kinds[i % kinds.length];
-    s.style.left = (i*7.3 + Math.random()*4) % 100 + "vw";
-    s.style.background = `var(${colors[i % colors.length]})`;
-    s.style.setProperty("--s", (18 + (i*7)%26) + "px");
-    s.style.setProperty("--d", (14 + (i*3)%12) + "s");
-    s.style.setProperty("--dl", (-i*1.7) + "s");
-    fx.appendChild(s);
+  const AMB = {
+    pola: ["A B A B ?", "2 4 6 8 ?", "○ □ ○ □", "1 1 2 3 5 8", "▲ ▲ ● ▲ ▲ ●", "AB AB AB", "Z Y X W ?", "1 4 9 16 ?", "★ ☆ ★ ☆", "5 10 15 ?"],
+    kode: ["if (pola) { }", "</>", "{ }", "x = x + 2", "i++", "[1, 2, 3]", "01101"],
+    simbol: ["+", "−", "×", "÷", "=", "?", "△", "○", "□", "◇", "#", "≠"],
+    angka: ["7", "13", "21", "42", "0", "1", "64", "100", "99"]
+  };
+  const SETS = ["pola", "pola", "simbol", "angka", "kode"];
+  const WARNA = ["var(--accent)", "var(--accent)", "var(--muted)", "var(--good)", "var(--bad)", "#E0A400"];
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const r = (lo, hi) => lo + Math.random() * (hi - lo);
+  let diam = false;
+  try { diam = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e) {}
+  const n = window.innerWidth < 600 ? 14 : 26;
+  const box = $("bgfx"); box.innerHTML = "";
+  for (let i = 0; i < n; i++) {
+    const kind = SETS[i % SETS.length];
+    const sp = document.createElement("span");
+    sp.textContent = pick(AMB[kind]);
+    if (diam) sp.className = "still";
+    const besar = kind === "simbol" || kind === "angka" ? r(18, 34) : r(12, 18);
+    const d = r(22, 40);
+    const v = {"--x": r(-4, 96).toFixed(1) + "vw", "--y": r(2, 94).toFixed(1) + "vh", "--s": besar.toFixed(0) + "px",
+      "--c": pick(WARNA), "--o": r(0.1, 0.2).toFixed(2), "--d": d.toFixed(1) + "s", "--t": (-r(0, d)).toFixed(1) + "s",
+      "--dx": r(-8, 8).toFixed(1) + "vw", "--r0": r(-15, 15).toFixed(0) + "deg", "--r1": r(-25, 25).toFixed(0) + "deg"};
+    for (const k in v) sp.style.setProperty(k, v[k]);
+    box.appendChild(sp);
   }
-  const w = $("title-wave"), txt = w.textContent, cols = ["--p1","--p3"];
+  const w = $("title-wave"), txt = w.textContent;
   w.innerHTML = "";
-  [...txt].forEach((ch,i)=>{
-    const sp = document.createElement("span"); sp.textContent = ch;
-    sp.style.setProperty("--i", i); sp.style.color = `var(${cols[i % cols.length]})`;
-    w.appendChild(sp);
+  [...txt].forEach((ch, i) => {
+    const s2 = document.createElement("span"); s2.textContent = ch;
+    s2.style.setProperty("--i", i);
+    w.appendChild(s2);
   });
 }
 buildBackground();
